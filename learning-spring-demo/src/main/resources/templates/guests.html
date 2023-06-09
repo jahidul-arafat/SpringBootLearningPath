@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Landon Hotel Room Reservations</title>
+</head>
+<body>
+<h1>Welcome to the Guest List Page</h1>
+<table>
+  <tr>
+    <td>Guest ID</td>
+    <td>Full Name</td>
+    <td>Country</td>
+    <td>State</td>
+    <td>Email</td>
+    <td>Phone Number</td>
+  </tr>
+  <tr th:each="guest: ${guests}">
+    <td th:text="${guest.id}">Guest ID</td>
+    <td th:text="${guest.lastName}+', '+${guest.firstName}">Guest Name</td>
+    <td th:text="${guest.country}">Country</td>
+    <td th:text="${guest.state}">State</td>
+    <td th:text="${guest.emailAddress}">email</td>
+    <td th:text="${guest.phoneNumber}">Phone</td>
+  </tr>
+</table>
+
+</body>
+</html>
