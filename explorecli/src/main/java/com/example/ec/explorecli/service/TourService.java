@@ -105,6 +105,11 @@ public class TourService {
         return tourRepository.findByPriceLessThan(price);
     }
 
+    // find tours by tour package code and bullets
+    public List<Tour> getToursByTourPackageCodeAndBulletsLike(String tourPackageCode, String bullets) {
+        return tourRepository.findByTourPackageCodeAndBulletsLike(tourPackageCode, bullets);
+    }
+
 
 
 }
