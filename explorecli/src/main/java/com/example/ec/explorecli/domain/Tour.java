@@ -24,7 +24,7 @@ import javax.persistence.*;
 public class Tour {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "tour_id")
+    @Column(name = "id")
     private Long id;            // primary key, auto-generated and auto-incremented, No user input required
 
     // multiple tour can be associated with a single TourPackage

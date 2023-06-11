@@ -41,4 +41,15 @@ public class TourPackageService {
     public TourPackage findTourPackageByCode(String code) {
         return tourPackageRepository.findById(code).orElse(null);
     }
+
+    public void deleteTourPackage(String code) {
+        tourPackageRepository.deleteById(code);
+    }
+
+    public TourPackage updateTourPackage(String code, String name) {
+        return tourPackageRepository.findById(code).map(tourPackage -> {
+            tourPackage.setName(name);
+            return tourPackageRepository.save(tourPackage);
+        }).orElse(null);
+    }
 }

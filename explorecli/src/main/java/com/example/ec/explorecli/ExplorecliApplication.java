@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @SpringBootApplication
-@EntityScan("com.example.ec.explorecli.domain")
+//@EntityScan("com.example.ec.explorecli.domain")
 public class ExplorecliApplication {
     private TourService tourService;
     private TourPackageService tourPackageService;

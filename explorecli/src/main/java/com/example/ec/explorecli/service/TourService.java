@@ -77,16 +77,14 @@ public class TourService {
     }
 
     // find tours by difficulty
-    public void getToursByDifficulty(String difficulty) {
+    public List<Tour> getToursByDifficulty(String difficulty) {
         Difficulty d = Arrays.stream(Difficulty.values())
                 .filter(e-> e.name().equals(difficulty))
                 .findFirst()
                 .orElse(Difficulty.Varies);
 
-        var tourDetail = tourRepository.findByDifficulty(d);
-        for (Object[] tour : tourDetail) {
-            System.out.println(Arrays.toString(tour));
-        }
+        return tourRepository.findByDifficulty(d);
+
     }
 
 
@@ -108,6 +106,13 @@ public class TourService {
     // find tours by tour package code and bullets
     public List<Tour> getToursByTourPackageCodeAndBulletsLike(String tourPackageCode, String bullets) {
         return tourRepository.findByTourPackageCodeAndBulletsLike(tourPackageCode, bullets);
+    }
+
+    // add a tour to the database
+    public void addTour(Tour tour) {
+        if (null ==tour)
+            throw new RuntimeException("Tour cannot be null");
+        tourRepository.save(tour);
     }
 
 

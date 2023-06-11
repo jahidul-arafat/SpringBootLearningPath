@@ -6,6 +6,7 @@ import com.example.ec.explorecli.domain.Tour;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,8 +20,8 @@ public interface TourRepository extends CrudRepository<Tour, Long> {
     List<Tour> findByTourPackageCode(@Param("code") String code);
     Optional<Tour> findByTitle(String title);
 
-    @Query("SELECT id, title, price, duration,region, difficulty FROM Tour WHERE difficulty = :difficulty")
-    List<Object[]> findByDifficulty(Difficulty difficulty);
+    //@Query("SELECT id, title, price, duration,region, difficulty FROM Tour WHERE difficulty = :difficulty")
+    List<Tour> findByDifficulty(Difficulty difficulty);
 
     // find by region
     List<Tour> findByRegion(Region region);
@@ -28,5 +29,33 @@ public interface TourRepository extends CrudRepository<Tour, Long> {
     List<Tour> findByPriceLessThan(double price);
 
     List<Tour> findByTourPackageCodeAndBulletsLike(String code,String bullets);
+
+    @Override
+    @RestResource(exported = false)
+    <S extends Tour> S save(S entity);
+
+    @Override
+    @RestResource(exported = false)
+    <S extends Tour> Iterable<S> saveAll(Iterable<S> entities);
+
+    @Override
+    @RestResource(exported = false)
+    void deleteById(Long aLong);
+
+    @Override
+    @RestResource(exported = false)
+    void delete(Tour entity);
+
+    @Override
+    @RestResource(exported = false)
+    void deleteAllById(Iterable<? extends Long> longs);
+
+    @Override
+    @RestResource(exported = false)
+    void deleteAll(Iterable<? extends Tour> entities);
+
+    @Override
+    @RestResource(exported = false)
+    void deleteAll();
 
 }
