@@ -3,6 +3,7 @@
 /Users/jarotball/study/SpringBootLearningPath/explorecli-mongodb/src/main/java/com/example/explorecli/domain/TourPackage.java
 /Users/jarotball/study/SpringBootLearningPath/explorecli-mongodb/src/main/java/com/example/explorecli/helpers/CreateTours.java
 /Users/jarotball/study/SpringBootLearningPath/explorecli-mongodb/src/main/java/com/example/explorecli/Explorecli.java
+/Users/jarotball/study/SpringBootLearningPath/explorecli-mongodb/src/main/java/com/example/explorecli/config/OpenApiConfig.java
 /Users/jarotball/study/SpringBootLearningPath/explorecli-mongodb/src/main/java/com/example/explorecli/domain/TourRating.java
 /Users/jarotball/study/SpringBootLearningPath/explorecli-mongodb/src/main/java/com/example/explorecli/util/ProjectValidators.java
 /Users/jarotball/study/SpringBootLearningPath/explorecli-mongodb/src/main/java/com/example/explorecli/services/TourService.java
