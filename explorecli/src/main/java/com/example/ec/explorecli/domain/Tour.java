@@ -1,8 +1,9 @@
 package com.example.ec.explorecli.domain;
 
-import lombok.*;
-
-import javax.persistence.*;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /*
 *     "packageType": "Taste of California",

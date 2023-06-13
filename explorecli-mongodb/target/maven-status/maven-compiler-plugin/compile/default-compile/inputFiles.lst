@@ -1,0 +1,17 @@
+/Users/jarotball/study/SpringBootLearningPath/explorecli-mongodb/src/main/java/com/example/explorecli/restcontrollers/TourRatingRestController.java
+/Users/jarotball/study/SpringBootLearningPath/explorecli-mongodb/src/main/java/com/example/explorecli/repositories/TourRepository.java
+/Users/jarotball/study/SpringBootLearningPath/explorecli-mongodb/src/main/java/com/example/explorecli/domain/TourPackage.java
+/Users/jarotball/study/SpringBootLearningPath/explorecli-mongodb/src/main/java/com/example/explorecli/helpers/CreateTours.java
+/Users/jarotball/study/SpringBootLearningPath/explorecli-mongodb/src/main/java/com/example/explorecli/Explorecli.java
+/Users/jarotball/study/SpringBootLearningPath/explorecli-mongodb/src/main/java/com/example/explorecli/domain/TourRating.java
+/Users/jarotball/study/SpringBootLearningPath/explorecli-mongodb/src/main/java/com/example/explorecli/util/ProjectValidators.java
+/Users/jarotball/study/SpringBootLearningPath/explorecli-mongodb/src/main/java/com/example/explorecli/services/TourService.java
+/Users/jarotball/study/SpringBootLearningPath/explorecli-mongodb/src/main/java/com/example/explorecli/util/AppStartupEvent.java
+/Users/jarotball/study/SpringBootLearningPath/explorecli-mongodb/src/main/java/com/example/explorecli/helpers/CreateTourPackages.java
+/Users/jarotball/study/SpringBootLearningPath/explorecli-mongodb/src/main/java/com/example/explorecli/domain/Tour.java
+/Users/jarotball/study/SpringBootLearningPath/explorecli-mongodb/src/main/java/com/example/explorecli/repositories/TourRatingRepository.java
+/Users/jarotball/study/SpringBootLearningPath/explorecli-mongodb/src/main/java/com/example/explorecli/services/TourRatingService.java
+/Users/jarotball/study/SpringBootLearningPath/explorecli-mongodb/src/main/java/com/example/explorecli/services/TourPackageService.java
+/Users/jarotball/study/SpringBootLearningPath/explorecli-mongodb/src/main/java/com/example/explorecli/restcontrollers/WebRestController.java
+/Users/jarotball/study/SpringBootLearningPath/explorecli-mongodb/src/main/java/com/example/explorecli/repositories/TourPackageRepository.java
+/Users/jarotball/study/SpringBootLearningPath/explorecli-mongodb/src/main/java/com/example/explorecli/util/TourFromFile.java

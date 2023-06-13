@@ -48,6 +48,13 @@ public class AppStartupEvent implements ApplicationListener<ApplicationReadyEven
             throw new RuntimeException(e);
         }
 
+        //terminalSimulator(sc);
+
+
+    }
+
+    private void terminalSimulator(Scanner sc) {
+        String choice;
         while (true){
 
             System.out.println("Welcome to ExploreCLI!");
@@ -131,7 +138,5 @@ public class AppStartupEvent implements ApplicationListener<ApplicationReadyEven
                 }
             } // switch end
         } // while end
-
-
     }
 }

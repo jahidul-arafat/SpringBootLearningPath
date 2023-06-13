@@ -44,16 +44,16 @@ public class WebRestController {
         tourPackageService.deleteTourPackage(code);
     }
 
-    // method to update a tour package by tour package code and name
-    @PutMapping("/packages/{code}/{name}")
-    public TourPackage updateTourPackage(@PathVariable(value = "code") String code, @PathVariable(value = "name") String name) {
-        return tourPackageService.updateTourPackage(code, name);
-    }
-
     // method to count all tour packages
     @GetMapping("/packages/count")
     public long countTourPackages() {
         return tourPackageService.countTourPackages();
+    }
+
+    // method to update a tourpackage
+    @PutMapping("/packages/{code}")
+    public void updateTour(@PathVariable(value = "code") String code, @RequestBody String name) {
+        tourPackageService.updateTourPackage(code, name);
     }
 
     // method to get all tours
@@ -98,5 +98,9 @@ public class WebRestController {
     public void addTour(@RequestBody Tour tour) {
         tourService.addTour(tour);
     }
+
+
+
+
 
 }
