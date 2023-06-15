@@ -433,3 +433,57 @@ Caused by: org.postgresql.util.PSQLException: ERROR: duplicate key value violate
 2023-06-14 12:49:54,721 ERROR [main] c.e.e.e.util.AppStartupEvent - ---------Error message-----------
 2023-06-14 12:51:41,079 ERROR [main] c.e.e.e.util.AppStartupEvent - ---------Error message-----------
 2023-06-14 12:52:03,406 ERROR [main] c.e.e.e.util.AppStartupEvent - ---------Error message-----------
+2023-06-14 15:33:51,921 ERROR [main] c.e.e.e.util.AppStartupEvent - ---------Error message-----------
+2023-06-14 15:36:02,035 ERROR [main] c.e.e.e.util.AppStartupEvent - ---------Error message-----------
+2023-06-14 15:36:02,103 ERROR [main] c.e.e.e.util.AppStartupEvent - An error occurred: Unrecognized field "guide" (class com.example.ec.explorecli.util.TourFromFile), not marked as ignorable (10 known properties: "packageType", "bullets", "region", "length", "title", "price", "keywords", "blurb", "description", "difficulty"])
+ at [Source: (FileInputStream); line: 373, column: 15] (through reference chain: java.util.ArrayList[30]->com.example.ec.explorecli.util.TourFromFile["guide"])
+com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: Unrecognized field "guide" (class com.example.ec.explorecli.util.TourFromFile), not marked as ignorable (10 known properties: "packageType", "bullets", "region", "length", "title", "price", "keywords", "blurb", "description", "difficulty"])
+ at [Source: (FileInputStream); line: 373, column: 15] (through reference chain: java.util.ArrayList[30]->com.example.ec.explorecli.util.TourFromFile["guide"])
+	at com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException.from(UnrecognizedPropertyException.java:61)
+	at com.fasterxml.jackson.databind.DeserializationContext.handleUnknownProperty(DeserializationContext.java:1132)
+	at com.fasterxml.jackson.databind.deser.std.StdDeserializer.handleUnknownProperty(StdDeserializer.java:2202)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.handleUnknownProperty(BeanDeserializerBase.java:1705)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.handleUnknownVanilla(BeanDeserializerBase.java:1683)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.vanillaDeserialize(BeanDeserializer.java:320)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserialize(BeanDeserializer.java:177)
+	at com.fasterxml.jackson.databind.deser.std.CollectionDeserializer._deserializeFromArray(CollectionDeserializer.java:359)
+	at com.fasterxml.jackson.databind.deser.std.CollectionDeserializer.deserialize(CollectionDeserializer.java:244)
+	at com.fasterxml.jackson.databind.deser.std.CollectionDeserializer.deserialize(CollectionDeserializer.java:28)
+	at com.fasterxml.jackson.databind.deser.DefaultDeserializationContext.readRootValue(DefaultDeserializationContext.java:323)
+	at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:4730)
+	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:3722)
+	at com.example.ec.explorecli.util.TourFromFile.loadToursFromJson(TourFromFile.java:46)
+	at com.example.ec.explorecli.util.CreateTours.createTour(CreateTours.java:23)
+	at com.example.ec.explorecli.util.AppStartupEvent.onApplicationEvent(AppStartupEvent.java:45)
+	at com.example.ec.explorecli.util.AppStartupEvent.onApplicationEvent(AppStartupEvent.java:15)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:176)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:169)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:143)
+	at org.springframework.context.support.AbstractApplicationContext.publishEvent(AbstractApplicationContext.java:413)
+	at org.springframework.context.support.AbstractApplicationContext.publishEvent(AbstractApplicationContext.java:370)
+	at org.springframework.boot.context.event.EventPublishingRunListener.ready(EventPublishingRunListener.java:109)
+	at org.springframework.boot.SpringApplicationRunListeners.lambda$ready$6(SpringApplicationRunListeners.java:80)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at org.springframework.boot.SpringApplicationRunListeners.doWithListeners(SpringApplicationRunListeners.java:118)
+	at org.springframework.boot.SpringApplicationRunListeners.doWithListeners(SpringApplicationRunListeners.java:112)
+	at org.springframework.boot.SpringApplicationRunListeners.ready(SpringApplicationRunListeners.java:80)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:327)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1302)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1291)
+	at com.example.ec.explorecli.ExplorecliApplication.main(ExplorecliApplication.java:19)
+2023-06-14 15:36:33,973 ERROR [main] c.e.e.e.util.AppStartupEvent - ---------Error message-----------
+2023-06-14 15:40:00,487 ERROR [main] c.e.e.e.util.AppStartupEvent - ---------Error message-----------
+2023-06-14 15:40:57,747 ERROR [main] c.e.e.e.util.AppStartupEvent - ---------Error message-----------
+2023-06-14 15:46:49,862 ERROR [main] c.e.e.e.util.AppStartupEvent - ---------Error message-----------
+2023-06-14 15:47:23,648 ERROR [main] c.e.e.e.util.AppStartupEvent - ---------Error message-----------
+2023-06-14 16:34:51,681 ERROR [main] c.e.e.e.util.AppStartupEvent - ---------Error message-----------
+2023-06-14 16:56:01,462 ERROR [main] c.e.e.e.util.AppStartupEvent - ---------Error message-----------
+2023-06-14 16:58:29,125 ERROR [main] c.e.e.e.util.AppStartupEvent - ---------Error message-----------
+2023-06-15 09:28:13,352 ERROR [main] c.e.e.e.util.AppStartupEvent - ---------Error message-----------
+2023-06-15 09:42:38,136 ERROR [main] c.e.e.e.util.AppStartupEvent - ---------Error message-----------
+2023-06-15 09:45:17,677 ERROR [main] c.e.e.e.util.AppStartupEvent - ---------Error message-----------
+2023-06-15 09:54:28,783 ERROR [main] c.e.e.e.util.AppStartupEvent - ---------Error message-----------
+2023-06-15 10:00:27,460 ERROR [main] c.e.e.e.util.AppStartupEvent - ---------Error message-----------
+2023-06-15 11:59:01,670 ERROR [main] c.e.e.e.util.AppStartupEvent - ---------Error message-----------
+2023-06-15 12:58:07,306 ERROR [main] c.e.e.e.util.AppStartupEvent - ---------Error message-----------
+2023-06-15 13:02:15,676 ERROR [main] c.e.e.e.util.AppStartupEvent - ---------Error message-----------

@@ -4,6 +4,7 @@ import com.example.ec.explorecli.domain.TourRating;
 import com.example.ec.explorecli.dto.RatingDto;
 import com.example.ec.explorecli.service.TourRatingService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
@@ -56,6 +57,15 @@ public class TourRatingRestController {
     public Integer getTourRatingByCustomer(@PathVariable("tourId") Long tourId,
                                              @PathVariable("customerId") Integer customerId) {
         return tourRatingService.getTourRatingByCustomer(tourId, customerId);
+    }
+
+    // method to create a tour rating for a tour from a list of customer ids with tourId, score as path variable and customerIds request parameter
+    @PostMapping("/{score}/customerIds")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createTourRatingByManyCustomers(@PathVariable("tourId") Long tourId,
+                                                 @PathVariable("score") Integer score,
+                                                 @RequestParam("customerIds") @Validated List<Integer> customerIds) {
+        tourRatingService.createTourRatingByManyCustomers(tourId, score, customerIds);
     }
 
 }

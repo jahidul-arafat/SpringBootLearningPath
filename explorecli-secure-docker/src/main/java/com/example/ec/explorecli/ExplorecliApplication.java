@@ -12,9 +12,6 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 @SpringBootApplication
 //@EntityScan("com.example.ec.explorecli.domain")
 public class ExplorecliApplication {
-    private TourService tourService;
-    private TourPackageService tourPackageService;
-
     public static void main(String[] args) {
         SpringApplication.run(ExplorecliApplication.class, args);
     }
