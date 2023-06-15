@@ -40,8 +40,6 @@ public class AppStartupEvent implements ApplicationListener<ApplicationReadyEven
         String choice;
         // Log messages
         logger.info("---------Application started-----------");
-        logger.debug("Debug message");
-        logger.error("---------Error message-----------");
 
         createTourPackage.createTourPackage();
         try {

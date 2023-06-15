@@ -1,0 +1,36 @@
+2023-06-15T21:08:36.879+06:00  INFO 20552 --- [main] c.e.ec.explorecli.ExplorecliApplication  : Starting ExplorecliApplication using Java 20.0.1 with PID 20552 (/Users/jarotball/study/SpringBootLearningPath/explorecli-secure-docker/target/classes started by jarotball in /Users/jarotball/study/SpringBootLearningPath/explorecli-secure-docker)
+2023-06-15T21:08:36.880+06:00 DEBUG 20552 --- [main] c.e.ec.explorecli.ExplorecliApplication  : Running with Spring Boot v3.0.0, Spring v6.0.2
+2023-06-15T21:08:36.880+06:00  INFO 20552 --- [main] c.e.ec.explorecli.ExplorecliApplication  : No active profile set, falling back to 1 default profile: "default"
+2023-06-15T21:08:37.176+06:00  INFO 20552 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-06-15T21:08:37.197+06:00  INFO 20552 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 18 ms. Found 3 JPA repository interfaces.
+2023-06-15T21:08:37.395+06:00  INFO 20552 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-06-15T21:08:37.398+06:00  INFO 20552 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-06-15T21:08:37.399+06:00  INFO 20552 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.1]
+2023-06-15T21:08:37.431+06:00  INFO 20552 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-06-15T21:08:37.432+06:00  INFO 20552 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 535 ms
+2023-06-15T21:08:37.489+06:00  INFO 20552 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-06-15T21:08:37.511+06:00  INFO 20552 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.1.5.Final
+2023-06-15T21:08:37.573+06:00  WARN 20552 --- [main] org.hibernate.orm.deprecation            : HHH90000021: Encountered deprecated setting [javax.persistence.sharedCache.mode], use [jakarta.persistence.sharedCache.mode] instead
+2023-06-15T21:08:37.613+06:00  INFO 20552 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-06-15T21:08:37.700+06:00  INFO 20552 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@709d86a2
+2023-06-15T21:08:37.701+06:00  INFO 20552 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-06-15T21:08:37.723+06:00  INFO 20552 --- [main] SQL dialect                              : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2023-06-15T21:08:38.072+06:00  INFO 20552 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-06-15T21:08:38.075+06:00  INFO 20552 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-06-15T21:08:38.380+06:00  WARN 20552 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-06-15T21:08:38.640+06:00  INFO 20552 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-06-15T21:08:38.645+06:00  INFO 20552 --- [main] c.e.ec.explorecli.ExplorecliApplication  : Started ExplorecliApplication in 1.872 seconds (process running for 3.38)
+2023-06-15T21:08:49.771+06:00  INFO 20552 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-06-15T21:08:49.771+06:00  INFO 20552 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2023-06-15T21:08:49.774+06:00  INFO 20552 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2023-06-15T21:08:50.154+06:00  INFO 20552 --- [http-nio-8080-exec-3] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 284 ms
+2023-06-15T21:09:40.697+06:00  INFO 20552 --- [http-nio-8080-exec-5] c.e.e.e.r.TourRatingRestController       : GET /tour/20/ratings
+2023-06-15T21:09:52.447+06:00  INFO 20552 --- [http-nio-8080-exec-6] c.e.e.e.r.TourRatingRestController       : POST /tour/20/ratings/3/customerIds/[1, 2, 3, 4]
+2023-06-15T21:09:52.453+06:00  INFO 20552 --- [http-nio-8080-exec-6] c.e.e.e.service.TourRatingService        : POST /tours/20/3/customers/?customers=[1, 2, 3, 4]
+2023-06-15T21:09:52.463+06:00 DEBUG 20552 --- [http-nio-8080-exec-6] c.e.e.e.service.TourRatingService        : Attempt to create Tour Rating 3 for customer 1
+2023-06-15T21:09:52.487+06:00 DEBUG 20552 --- [http-nio-8080-exec-6] c.e.e.e.service.TourRatingService        : Attempt to create Tour Rating 3 for customer 2
+2023-06-15T21:09:52.489+06:00 DEBUG 20552 --- [http-nio-8080-exec-6] c.e.e.e.service.TourRatingService        : Attempt to create Tour Rating 3 for customer 3
+2023-06-15T21:09:52.489+06:00 DEBUG 20552 --- [http-nio-8080-exec-6] c.e.e.e.service.TourRatingService        : Attempt to create Tour Rating 3 for customer 4
+2023-06-15T21:10:29.447+06:00  INFO 20552 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-06-15T21:10:29.453+06:00  INFO 20552 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-06-15T21:10:29.456+06:00  INFO 20552 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

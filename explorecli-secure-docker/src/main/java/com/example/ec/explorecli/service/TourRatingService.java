@@ -9,6 +9,8 @@ import com.example.ec.explorecli.repo.TourRepository;
 import com.example.ec.explorecli.util.HelperMethods;
 import jakarta.transaction.Transactional;
 import lombok.Data;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -27,6 +29,7 @@ import java.util.List;
 @Data
 @Transactional // This annotation ensures that the method executes as a single transaction, meaning that either all the database operations within the method will be committed together or rolled back if an exception occurs.
 public class TourRatingService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TourRatingService.class);
     private final TourRepository tourRepository;
     private final TourRatingRepository tourRatingRepository;
     private final HelperMethods helperMethods;
@@ -34,6 +37,7 @@ public class TourRatingService {
     // method to create a tour rating using tour id
     // For POST /tours/{tourId}/ratings  with RatingDTO as the JSON/payload in the Body
     public void createTourRating(Long tourId, @Validated RatingDto ratingDto){
+        LOGGER.info("POST /tours/{}/ratings/{}",tourId,ratingDto);
         Tour tour = helperMethods.validateTour(tourId);
         tourRatingRepository.save(new TourRating(
                 new TourRatingPK(tour, ratingDto.getCustomerId()),
@@ -46,11 +50,17 @@ public class TourRatingService {
     // For POST /tours/{tourId}/ratings/{rating}?customers=1,2,3,4,5 with tourId, score as path variable and customerIds request parameter
     //@Transactional // This annotation ensures that the method executes as a single transaction, meaning that either all the database operations within the method will be committed together or rolled back if an exception occurs.
     public void createTourRatingByManyCustomers(Long tourId, Integer score, List<Integer> customerIds){
+        LOGGER.info("POST /tours/{}/{}/customers/?customers={}", tourId, score,customerIds);
         Tour tour = helperMethods.validateTour(tourId);
         customerIds.stream()
-                        .forEach(customerId -> tourRatingRepository.save(
-                                new TourRating(new TourRatingPK(tour, customerId),
-                                        score)));
+                        .forEach(customerId -> {
+                            LOGGER.debug("Attempt to create Tour Rating {} for customer {}", score, customerId);
+                            tourRatingRepository.save(
+                                            new TourRating(new TourRatingPK(tour, customerId),
+                                                    score));
+                                }
+
+                        );
     }
 
     // method to get all tour ratings as RatingDTO of a specific tour
