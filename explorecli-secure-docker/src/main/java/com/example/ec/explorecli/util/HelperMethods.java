@@ -27,4 +27,11 @@ public class HelperMethods {
                 .orElseThrow(() -> new RuntimeException("TourRating with tour id " + tourId +
                         " and customer id " + customerId));
     }
+
+//    public Integer validateScore(Integer score) {
+//        if (score < 0 || score > 5) {
+//            throw new RuntimeException("Score must be between 0 and 5");
+//        }
+//        return score;
+//    }
 }

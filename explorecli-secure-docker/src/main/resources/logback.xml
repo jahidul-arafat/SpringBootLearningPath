@@ -3,5 +3,11 @@
 
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
     <logger name="com.example.ec" level="DEBUG"/>
+    <!-- Configure the logger for the controller package to include the error level -->
+    <logger name="com.example.ec.controller" level="ERROR"/>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
 </configuration>
 

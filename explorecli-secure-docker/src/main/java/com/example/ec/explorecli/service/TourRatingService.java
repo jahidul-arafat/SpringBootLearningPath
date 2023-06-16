@@ -25,6 +25,12 @@ import java.util.List;
  *     "customerId": 123
  * }
  */
+
+/*
+In general, it is recommended to use @Transactional at the service layer rather than the controller layer.
+The service layer is responsible for handling business logic and interacting with the data layer,
+making it a suitable place to manage transactions.
+ */
 @Service
 @Data
 @Transactional // This annotation ensures that the method executes as a single transaction, meaning that either all the database operations within the method will be committed together or rolled back if an exception occurs.
@@ -46,6 +52,67 @@ public class TourRatingService {
                 ));
     }
 
+    // method to create a tour rating given score, tour id and customer id
+    // For POST /tours/{tourId}/ratings/{rating}?customers=1,2,3,4,5 with tourId, score as path variable and customerIds request parameter
+    //@Transactional // This annotation ensures that the method executes as a single transaction, meaning that either all the database operations within the method will be committed together or rolled back if an exception occurs.
+    public void createTourRatingByScore(Long tourId, Integer score, Integer customerId){
+        LOGGER.info("POST /tours/{}/ratings/{}?customers={}", tourId, score, customerId);
+        Tour tour = helperMethods.validateTour(tourId);
+        tourRatingRepository.save(new TourRating(
+                new TourRatingPK(tour, customerId),
+                score));
+    }
+
+    // method to create a number of tour ratings given a list of score, list of tour id and list of customer ids
+    // For POST /tours/{tourId}/ratings?customers=1,2,3,4,5 with tourId, score as path variable and customerIds request parameter
+    //@Transactional // This annotation ensures that the method executes as a single transaction, meaning that either all the database operations within the method will be committed together or rolled back if an exception occurs.
+    public void createTourRatingsByListOfScoreTourCustomer(List<Long> tourIds, List<Integer> scores, List<Integer> customerIds) {
+        LOGGER.info("POST /tours/ratings");
+
+        // Validate input lists
+        if (tourIds.size() != scores.size() || tourIds.size() != customerIds.size()) {
+            throw new IllegalArgumentException("Invalid input lists. Size mismatch.");
+        }
+
+        // Iterate over the input lists and create TourRating objects
+        for (int i = 0; i < tourIds.size(); i++) {
+            Long tourId = tourIds.get(i);
+            Integer score = scores.get(i);
+            Integer customerId = customerIds.get(i);
+
+            Tour tour = helperMethods.validateTour(tourId);
+            tourRatingRepository.save(new TourRating(
+                    new TourRatingPK(tour, customerId),
+                    score));
+        }
+    }
+
+    public void createTourRatingsBYListOfScoreTourCustomerCollective(
+            List<Long> tourIds,
+            List<Integer> scores,
+            List<Integer> customerIds) {
+        LOGGER.info("POST /tours/ratings");
+
+        // Iterate over the tour IDs
+        tourIds.forEach(tourId -> {
+            // Validate the tour
+            Tour tour = helperMethods.validateTour(tourId);
+
+            // Iterate over the scores and customer IDs
+            scores.forEach(score -> {
+                customerIds.forEach(customerId -> {
+                    // Create and save the tour rating
+                    tourRatingRepository.save(new TourRating(
+                            new TourRatingPK(tour, customerId),
+                            score));
+                });
+            });
+        });
+
+    }
+
+
+
     // method to create a tour rating for a tour from a list of customer ids with tourId, score as path variable and customerIds request parameter
     // For POST /tours/{tourId}/ratings/{rating}?customers=1,2,3,4,5 with tourId, score as path variable and customerIds request parameter
     //@Transactional // This annotation ensures that the method executes as a single transaction, meaning that either all the database operations within the method will be committed together or rolled back if an exception occurs.
@@ -62,6 +129,22 @@ public class TourRatingService {
 
                         );
     }
+
+    // method to get all tour ratings for all tours
+    // For GET /tours/ratings
+    public List<TourRating> getAllTourRatings(){
+        return tourRatingRepository.findAll();
+//        return tourRatings.stream()
+//             .map(RatingDto::new)
+//             .toList();
+    }
+
+    // method to get all tour ratings by Tour Rating score
+    // For GET /tours/ratings?score=5
+    public List<TourRating> getAllTourRatingsByScore(Integer score){
+        return tourRatingRepository.findByScore(score);
+    }
+
 
     // method to get all tour ratings as RatingDTO of a specific tour
     // For GET /tours/{tourId}/ratings
@@ -105,6 +188,10 @@ public class TourRatingService {
         TourRating tourRating = helperMethods.validateTourRating(tourId, customerId);
         return tourRating.getScore();
     }
+
+    // method to get all tours RatingDTO by score
+    // For GET /tours/ratings?score=5
+
 
 
 

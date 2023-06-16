@@ -14,7 +14,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
+/*
+In general, it is recommended to use @Transactional at the service layer rather than the controller layer.
+The service layer is responsible for handling business logic and interacting with the data layer,
+making it a suitable place to manage transactions.
+ */
 
 @RestController
 @RequestMapping("/tours/{tourId}/ratings")
@@ -83,5 +89,29 @@ public class TourRatingRestController {
         LOGGER.info("POST /tour/{}/ratings/{}/customerIds/{}",tourId,score,customerIds);
         tourRatingService.createTourRatingByManyCustomers(tourId, score, customerIds);
     }
+
+
+
+    // method for exception handling if NoSuchElementException is thrown by this controller
+    @ExceptionHandler(NoSuchElementException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handleNoSuchElementException(NoSuchElementException e) {
+        LOGGER.error("ExploreCli>>>[BY_JA]:: NoSuchElementException: {}", e.getMessage());
+    }
+
+    // method for exception handling if IllegalArgumentException is thrown by this controller
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void handleIllegalArgumentException(IllegalArgumentException e) {
+        LOGGER.error("ExploreCli>>>[BY_JA]:: IllegalArgumentException: {}", e.getMessage());
+    }
+
+    // method for exception handling if IllegalStateException is thrown by this controller
+    @ExceptionHandler(IllegalStateException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void handleIllegalStateException(IllegalStateException e) {
+        LOGGER.error("ExploreCli>>>[BY_JA]:: IllegalStateException: {}", e.getMessage());
+    }
+
 
 }

@@ -7,6 +7,7 @@ import com.example.ec.explorecli.domain.TourPackage;
 import com.example.ec.explorecli.dto.TourDto;
 import com.example.ec.explorecli.repo.TourPackageRepository;
 import com.example.ec.explorecli.repo.TourRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class TourService {
     private final TourRepository tourRepository;
     private final TourPackageRepository tourPackageRepository;

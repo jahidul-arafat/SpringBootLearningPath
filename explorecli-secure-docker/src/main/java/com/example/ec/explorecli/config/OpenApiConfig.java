@@ -13,7 +13,7 @@ public class OpenApiConfig {
         return new OpenAPI()
                 .info(new Info()
                         .title("Explorecli API Book")
-                        .description("By Jahidul Arafat")
-                        .version("3.0.1"));
+                        .description("By Jahidul Arafat, Solution Architect, Oracle")
+                        .version("0.0.2"));
     }
 }

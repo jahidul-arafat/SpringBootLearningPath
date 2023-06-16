@@ -2,11 +2,13 @@ package com.example.ec.explorecli.service;
 
 import com.example.ec.explorecli.domain.TourPackage;
 import com.example.ec.explorecli.repo.TourPackageRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@Transactional
 public class TourPackageService {
 
     private final TourPackageRepository tourPackageRepository;

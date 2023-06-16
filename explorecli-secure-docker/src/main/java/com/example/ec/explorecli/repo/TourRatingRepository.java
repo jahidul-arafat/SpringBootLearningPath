@@ -17,4 +17,6 @@ public interface TourRatingRepository extends JpaRepository<TourRating, TourRati
 
     Optional<TourRating> findByPkTourIdAndPkCustomerID(Long pkTourId, Integer pkCustomerID);
 
+    List<TourRating> findByScore(Integer score);
+
 }
