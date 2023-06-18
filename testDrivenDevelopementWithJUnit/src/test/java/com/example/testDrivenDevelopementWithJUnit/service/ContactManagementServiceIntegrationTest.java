@@ -10,13 +10,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 
-@ExtendWith(MockitoExtension.class) // This annotation ensures that the necessary Spring context is loaded before executing the test.
+@ExtendWith(SpringExtension.class) // This annotation ensures that the necessary Spring context is loaded before executing the test.
 @SpringBootTest(webEnvironment = WebEnvironment.NONE) // means we are not going to test any controller // The @SpringBootTest annotation is used to indicate that the test should load the entire Spring application context for testing purposes.
 public class ContactManagementServiceIntegrationTest {
     // the test requires exactly 1 zero argument constructor
@@ -38,8 +38,8 @@ public class ContactManagementServiceIntegrationTest {
     public void testSaveContactHappyPath() {
         // create a new customer contact
         CustomerContact contact = new CustomerContact();
-        contact.setFirstName("Ailly");
-        contact.setLastName("Aow");
+        contact.setFirstName("Cilly");
+        contact.setLastName("Cow");
 
         // save the contact
         CustomerContact newContact = contactsManagementService.addCustomerContact(contact);
@@ -52,7 +52,21 @@ public class ContactManagementServiceIntegrationTest {
         assertNotNull(newContact.getId());
 
         // smoke test 03: Check that the new contact has the correct values
-        assertEquals("Ailly", newContact.getFirstName());
+        assertEquals("Cilly", newContact.getFirstName());
 
+    }
+
+    @Test
+    public void testSaveContactBizCaseConstraintMandatoryAttributeMissing() {
+        // create a new customer contact
+        CustomerContact contact = new CustomerContact();
+        contact.setLastName("Cow"); // firstName is mandatory and missing here
+
+        // save the contact
+        CustomerContact newContact = contactsManagementService.addCustomerContact(contact);
+
+        // verify the addition of the customer contact
+        // smoke test 01: Check that the new contact is not null
+        assertNull(newContact);
     }
 }
