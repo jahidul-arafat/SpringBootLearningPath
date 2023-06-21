@@ -3,9 +3,11 @@ package com.example.testDrivenDevelopementWithJUnit.service;
 import com.example.testDrivenDevelopementWithJUnit.domain.CustomerContact;
 import lombok.NoArgsConstructor;
 
-import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import org.junit.runner.RunWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,7 +18,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-@ExtendWith(SpringExtension.class) // This annotation ensures that the necessary Spring context is loaded before executing the test.
+//@ExtendWith(SpringExtension.class) // This annotation ensures that the necessary Spring context is loaded before executing the test.
+@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.NONE) // means we are not going to test any controller // The @SpringBootTest annotation is used to indicate that the test should load the entire Spring application context for testing purposes.
 public class ContactManagementServiceIntegrationTest {
     // the test requires exactly 1 zero argument constructor
