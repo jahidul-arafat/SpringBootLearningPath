@@ -4,6 +4,9 @@ import com.example.ec.explorecli.domain.Region;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Converter;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+
 
 @Converter(autoApply = true)
 public class RegionConverter implements AttributeConverter<Region, String> {

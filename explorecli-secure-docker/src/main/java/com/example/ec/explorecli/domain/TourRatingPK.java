@@ -27,9 +27,7 @@ public class TourRatingPK implements Serializable {
     // constructor
     public TourRatingPK(Tour tour, Integer customerID) {
         this.tour = tour;
-        if (customerID < 0) {
-            throw new IllegalArgumentException("Customer ID must be non-negative");
-        }
-        this.customerID = customerID;
+        // customerID must be non-negative and default value is 12345678
+        this.customerID = customerID < 0 ? 12345678 : customerID;
     }
 }

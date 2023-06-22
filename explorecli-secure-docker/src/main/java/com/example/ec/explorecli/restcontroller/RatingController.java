@@ -71,7 +71,7 @@ public class RatingController {
 
     @PostMapping("/many/collective/{tourId}/{score}/{customerId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void rateTourByManyScoreCustomerCollective(@PathVariable("score") List<Integer> score,
+    public void rateTourByManyScoreCustomerCollective(@PathVariable("score") Integer score,
                                             @PathVariable("tourId") List<Long> tourId,
                                             @PathVariable("customerId") List<Integer> customerId) {
         tourRatingService.createTourRatingsBYListOfScoreTourCustomerCollective(tourId,score,customerId);

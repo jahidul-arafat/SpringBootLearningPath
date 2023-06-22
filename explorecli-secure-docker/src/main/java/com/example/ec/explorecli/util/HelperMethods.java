@@ -7,6 +7,8 @@ import com.example.ec.explorecli.repo.TourRatingRepository;
 import com.example.ec.explorecli.repo.TourRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.NoSuchElementException;
+
 @Component
 public class HelperMethods {
     private final TourRatingRepository tourRatingRepository;
@@ -19,12 +21,12 @@ public class HelperMethods {
 
     public Tour validateTour(Long tourId) {
         return tourRepository.findById(tourId)
-                .orElseThrow(() -> new RuntimeException("Tour with id " + tourId + " does not exist"));
+                .orElseThrow(() -> new NoSuchElementException("Tour with id " + tourId + " does not exist"));
     }
 
     public TourRating validateTourRating(Long tourId, Integer customerId) {
         return tourRatingRepository.findByPkTourIdAndPkCustomerID(tourId, customerId)
-                .orElseThrow(() -> new RuntimeException("TourRating with tour id " + tourId +
+                .orElseThrow(() -> new NoSuchElementException("TourRating with tour id " + tourId +
                         " and customer id " + customerId));
     }
 

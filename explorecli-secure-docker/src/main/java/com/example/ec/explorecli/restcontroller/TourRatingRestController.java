@@ -70,14 +70,24 @@ public class TourRatingRestController {
         tourRatingService.deleteTourRating(tourId, customerId);
     }
 
-    // method to get tour rating by customer
+    // method to get tour rating score by customer
     @GetMapping("/{customerId}")
-    public Integer getTourRatingByCustomer(@PathVariable("tourId") Long tourId,
+    public Integer getTourRatingScoreByCustomer(@PathVariable("tourId") Long tourId,
                                              @PathVariable("customerId") Integer customerId) {
         // add logger info with url parameter
         LOGGER.info("GET /tour/{}/ratings/{}", tourId,customerId);
-        return tourRatingService.getTourRatingByCustomer(tourId, customerId);
+        return tourRatingService.getTourRatingScoreByCustomer(tourId, customerId);
     }
+
+    // method to get rating dto by tour and customer
+    @GetMapping("/ratingDto/{customerId}")
+    public RatingDto getRatingDtoByTourAndCustomer(@PathVariable("tourId") Long tourId,
+                                                     @PathVariable("customerId") Integer customerId) {
+        // add logger info with url parameter
+        LOGGER.info("GET /tour/{}/ratings/{}", tourId,customerId);
+        return tourRatingService.getRatingDtoByTourAndCustomer(tourId, customerId);
+    }
+
 
     // method to create a tour rating for a tour from a list of customer ids with tourId, score as path variable and customerIds request parameter
     @PostMapping("/{score}/customerIds")

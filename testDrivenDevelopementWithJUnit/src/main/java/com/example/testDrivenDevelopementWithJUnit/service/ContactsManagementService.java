@@ -38,8 +38,6 @@ public class ContactsManagementService {
     }
 
 
-
-
     // method to get a customer contact given a customer contact id
     public CustomerContact getCustomerContactById(Long id) {
         return customerContactRepository.findById(id).orElse(null);

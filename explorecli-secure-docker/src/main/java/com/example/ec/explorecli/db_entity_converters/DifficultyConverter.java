@@ -3,7 +3,9 @@ package com.example.ec.explorecli.db_entity_converters;
 import com.example.ec.explorecli.domain.Difficulty;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
+import org.springframework.stereotype.Component;
 
+@Component
 @Converter(autoApply = true)
 public class DifficultyConverter implements AttributeConverter<Difficulty, String> {
 

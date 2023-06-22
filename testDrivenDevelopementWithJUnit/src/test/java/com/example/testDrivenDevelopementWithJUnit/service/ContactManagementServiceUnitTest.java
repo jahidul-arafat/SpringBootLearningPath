@@ -13,7 +13,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
+/***
+ * By using @ExtendWith(MockitoExtension.class), you can leverage Mockito's capabilities in your
+ * JUnit 5 tests, such as creating and injecting mock objects, defining behavior
+ * and expectations for mocked methods,
+ * and verifying interactions with mocked objects.
+ */
+@ExtendWith(MockitoExtension.class) // MockitoExtension.class is the specific extension provided by the Mockito framework. It integrates Mockito with JUnit 5 tests.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 public class ContactManagementServiceUnitTest {
 //    @Mock

@@ -1,8 +1,8 @@
 ### What we learnt | Book: Test-Driven Development  by Example by Kent Beck
 - You to start your Test Driven Development journey using the Spring Framework.
-- Why TDD is important from the developmnent perspective
+- Why TDD is important from the development perspective
 -  (a) Timely Design, validation, negotiation and feedback
-- How to usinh Junit 4 and JUnit 5 testing framework for unit and integration testing
+- How to use Junit 4 and JUnit 5 testing framework for unit and integration testing
     i.e. Instructing Junit to do the followings
   - Not load @Controller
   - Only load @Service and dependencies

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@AllArgsConstructor
+//@AllArgsConstructor
 @NoArgsConstructor
 //@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"tour_id", "customerID"}))
 public class TourRating {
@@ -26,11 +26,19 @@ public class TourRating {
     @Column(length = 255)
     private String comment;
 
-    // constructor
+    // constructor -custom
     public TourRating(TourRatingPK pk, Integer score) {
         this.pk = pk;
-        this.score = score;
+        this.score = Math.max(0, Math.min(score, 5)); // this will keep the score always between 0 and 5
         this.comment = toComment(score);
+    }
+
+    // constructor -default
+    // though @AllArgsConstructor could be used, but we have added constraint on 'score' value
+    public TourRating(TourRatingPK pk, Integer score, String comment) {
+        this.pk = pk;
+        this.score = Math.max(0, Math.min(score, 5)); // this will keep the score always between 0 and 5
+        this.comment = comment;
     }
 
     private String toComment(Integer score) {

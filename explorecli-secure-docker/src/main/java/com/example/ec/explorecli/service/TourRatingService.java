@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Created by Jahidul Arafat on 2023-
@@ -55,7 +56,8 @@ public class TourRatingService {
     // method to create a tour rating given score, tour id and customer id
     // For POST /tours/{tourId}/ratings/{rating}?customers=1,2,3,4,5 with tourId, score as path variable and customerIds request parameter
     //@Transactional // This annotation ensures that the method executes as a single transaction, meaning that either all the database operations within the method will be committed together or rolled back if an exception occurs.
-    public void createTourRatingByScore(Long tourId, Integer score, Integer customerId){
+    public void createTourRatingByScore(Long tourId, Integer score, Integer customerId)
+            throws NoSuchElementException {
         LOGGER.info("POST /tours/{}/ratings/{}?customers={}", tourId, score, customerId);
         Tour tour = helperMethods.validateTour(tourId);
         tourRatingRepository.save(new TourRating(
@@ -89,7 +91,7 @@ public class TourRatingService {
 
     public void createTourRatingsBYListOfScoreTourCustomerCollective(
             List<Long> tourIds,
-            List<Integer> scores,
+            Integer score,
             List<Integer> customerIds) {
         LOGGER.info("POST /tours/ratings");
 
@@ -99,13 +101,11 @@ public class TourRatingService {
             Tour tour = helperMethods.validateTour(tourId);
 
             // Iterate over the scores and customer IDs
-            scores.forEach(score -> {
-                customerIds.forEach(customerId -> {
-                    // Create and save the tour rating
-                    tourRatingRepository.save(new TourRating(
-                            new TourRatingPK(tour, customerId),
-                            score));
-                });
+            customerIds.forEach(customerId -> {
+                // Create and save the tour rating
+                tourRatingRepository.save(new TourRating(
+                        new TourRatingPK(tour, customerId),
+                        score));
             });
         });
 
@@ -176,7 +176,7 @@ public class TourRatingService {
     }
 
     // method to delete a specific tour rating by tour and customer id
-    public void deleteTourRating(Long tourId, Integer customerId){
+    public void deleteTourRating(Long tourId, Integer customerId) throws NoSuchElementException{
         TourRating tourRating = helperMethods.validateTourRating(tourId, customerId);
         System.out.println("Deleting tour rating with tour id " + tourId + " and customer id " + customerId);
         tourRatingRepository.delete(tourRating);
@@ -184,18 +184,17 @@ public class TourRatingService {
 
     // method to get tour rating of a tour by customer id
     // For GET /tours/{tourId}/ratings/{customerId}
-    public Integer getTourRatingByCustomer(Long tourId, Integer customerId){
+    public Integer getTourRatingScoreByCustomer(Long tourId, Integer customerId){
         TourRating tourRating = helperMethods.validateTourRating(tourId, customerId);
         return tourRating.getScore();
     }
 
-    // method to get all tours RatingDTO by score
+    // method to get all tours RatingDTO by
     // For GET /tours/ratings?score=5
+    public RatingDto getRatingDtoByTourAndCustomer(Long tourId, Integer customerId){
+        TourRating tourRating = helperMethods.validateTourRating(tourId, customerId);
+        // return ratingDto from the tourRating
+        return new RatingDto(tourRating);
 
-
-
-
-
-
-
+    }
 }
