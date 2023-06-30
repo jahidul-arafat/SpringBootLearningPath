@@ -144,7 +144,7 @@ public class TourRatingServiceUnitTest {
 
     // Test method to update an existing Tour Rating
     @Test
-    public void testUpdateTourRating() {
+    public void testUpdateSingleTourRating() {
         when(helperMethodsMock.validateTourRating(TOUR_ID, ratingDtoMock.getCustomerId())).thenReturn(tourRatingMock); // setup // without this TourRating will face a null pointer exception// expected
         tourRatingService.updateTourRating(TOUR_ID, new RatingDto(1, "great",100));
 
@@ -153,6 +153,15 @@ public class TourRatingServiceUnitTest {
 
         verify(tourRatingMock).setComment("great");
         verify(tourRatingMock).setScore(1);
+    }
+
+    // Test method to delete an existing Tour Rating
+    @Test
+    public void testDeleteTourRating() {
+        when(helperMethodsMock.validateTourRating(TOUR_ID, ratingDtoMock.getCustomerId())).thenReturn(tourRatingMock);
+        tourRatingService.deleteTourRating(TOUR_ID, CUSTOMER_ID);
+        //verify tourRatingRepository.delete invoked once and capture the TourRating Object
+        verify(tourRatingRepositoryMock).delete(any(TourRating.class));
     }
 
 }
