@@ -155,6 +155,11 @@ public class TourRatingService {
               .toList();
     }
 
+    // For Unit Testing Purpose only at TourRatingServiceUnitTest
+    public List<TourRating> getAllTourRatingsForTourByTourId(Long tourId){
+        return tourRatingRepository.findByPkTourId(tourId);
+    }
+
     // method to get the average tour rating of a specific tour
     // For GET /tours/{tourId}/ratings/average
     public Double getAverageTourRatingForTour(Long tourId){
@@ -167,9 +172,10 @@ public class TourRatingService {
     }
 
     // method to update the score and comment of a specific tour rating
-    public void updateTourRating(Long tourId, RatingDto ratingDto){
+    public void updateTourRating(Long tourId, @Validated RatingDto ratingDto){
         // verify tour rating by tour and customer id
         TourRating tourRating = helperMethods.validateTourRating(tourId, ratingDto.getCustomerId());
+
         tourRating.setScore(ratingDto.getScore());
         tourRating.setComment(ratingDto.getComment());
         tourRatingRepository.save(tourRating);

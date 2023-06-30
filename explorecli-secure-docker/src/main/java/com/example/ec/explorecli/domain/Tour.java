@@ -22,7 +22,8 @@ import lombok.NoArgsConstructor;
 * */
 @Entity
 @Data
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+//@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Table(name = "TOUR")
 public class Tour {
     @Id

@@ -1,5 +1,6 @@
-package com.example.ec.explorecli.domain;
+package com.example.ec.explorecli.services;
 
+import com.example.ec.explorecli.domain.TourRating;
 import com.example.ec.explorecli.dto.RatingDto;
 import com.example.ec.explorecli.service.TourRatingService;
 import org.junit.Test;
@@ -14,7 +15,7 @@ import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(SpringRunner.class)
+@RunWith(SpringRunner.class) // to enable springboot support for Junit test
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE) //means no controller and thereby no port is required
 public class TourRatingServiceIntegrationTest {
     private static final Integer CUSTOMER_ID = 100;
