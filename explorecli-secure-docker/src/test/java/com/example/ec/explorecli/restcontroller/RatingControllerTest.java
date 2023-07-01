@@ -103,6 +103,10 @@ public class RatingControllerTest {
     }
 
     // Test method
+    /**
+     *  HTTP GET /rating/{score}
+     *  /rating/4
+     */
     @Test
     public void getRatingByScoreWebURL() throws Exception {
         List<CustomerTourRefDto> mockList = List.of(
