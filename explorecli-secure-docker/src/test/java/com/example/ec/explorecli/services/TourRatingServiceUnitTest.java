@@ -9,27 +9,17 @@ import com.example.ec.explorecli.service.TourRatingService;
 import com.example.ec.explorecli.util.HelperMethods;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 //@ExtendWith(MockitoExtension.class) // MockitoExtension.class is the specific extension provided by the Mockito framework. It integrates Mockito with JUnit 5 tests.
 //@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE) // means, its not a controller test and we don't need a URL/endpoint.
@@ -55,16 +45,16 @@ public class TourRatingServiceUnitTest {
 
      */
     @InjectMocks
-    private TourRatingService tourRatingService; // mocks are injected into the TourRatingService
+    private TourRatingService tourRatingService; // mocks are injected into the TourRatingService // this interacts with Tour and TourRating
 
     @Mock
-    private Tour tourMock; // not injectable to TourRatingService
+    private Tour tourMock; // not injectable to TourRatingService /
     @Mock
     private TourRating tourRatingMock; // not injectable to TourRatingService
     @Mock
     private RatingDto ratingDtoMock; // not injectable to TourRatingService
 
-    @Before
+    @Before // to override the normal behavior of runtime // this will be invoked before each test method
     public void setUpReturnValuesForMockInvocations() {
         /*
         1. Return (Optional<Tour>) when search tourRepository by TOUR_ID
@@ -72,10 +62,10 @@ public class TourRatingServiceUnitTest {
         3. Return (Optional<TourRating>) when search tourRatingRepository by tour_id and customer_id
         4. Return a list of TourRating objects when search tourRatingRepository by TOUR_ID
          */
-        when(tourRepositoryMock.findById(TOUR_ID)).thenReturn(Optional.of(tourMock)); // return the mocked Tour object when search with  TOUR_ID
-        when(tourMock.getId()).thenReturn(TOUR_ID);
-        when(tourRatingRepositoryMock.findByPkTourIdAndPkCustomerID(TOUR_ID, CUSTOMER_ID))
-                .thenReturn(Optional.of(tourRatingMock));
+        //when(tourRepositoryMock.findById(TOUR_ID)).thenReturn(Optional.of(tourMock)); // return the mocked Tour object when search with  TOUR_ID
+        //when(tourMock.getId()).thenReturn(TOUR_ID);
+//        when(tourRatingRepositoryMock.findByPkTourIdAndPkCustomerID(TOUR_ID, CUSTOMER_ID))
+//                .thenReturn(Optional.of(tourRatingMock));
         when(tourRatingRepositoryMock.findByPkTourId(TOUR_ID))
                 .thenReturn(List.of(tourRatingMock));
         //when(helperMethodsMock.validateTourRating(TOUR_ID, ratingDtoMock.getCustomerId())).thenReturn(tourRatingMock);
@@ -162,6 +152,30 @@ public class TourRatingServiceUnitTest {
         tourRatingService.deleteTourRating(TOUR_ID, CUSTOMER_ID);
         //verify tourRatingRepository.delete invoked once and capture the TourRating Object
         verify(tourRatingRepositoryMock).delete(any(TourRating.class));
+    }
+
+    /*
+    public void createTourRatingByManyCustomers(Long tourId, Integer score, List<Integer> customerIds){
+        LOGGER.info("POST /tours/{}/{}/customers/?customers={}", tourId, score,customerIds);
+        Tour tour = helperMethods.validateTour(tourId);
+        customerIds.stream()
+                        .forEach(customerId -> {
+                            LOGGER.debug("Attempt to create Tour Rating {} for customer {}", score, customerId);
+                            tourRatingRepository.save(
+                                            new TourRating(new TourRatingPK(tour, customerId),
+                                                    score));
+                                }
+
+                        );
+    }
+     */
+
+    // Test method to create tour rating by a list of customers given the tour id and score
+    @Test
+    public void testCreateTourRatingsByListOfScoreTourCustomer() {
+        tourRatingService.createTourRatingByManyCustomers(TOUR_ID, 10, List.of(CUSTOMER_ID, CUSTOMER_ID+1, CUSTOMER_ID+2));
+        //verify tourRatingRepository.save invoked three times
+        verify(tourRatingRepositoryMock, times(3)).save(any(TourRating.class));
     }
 
 }

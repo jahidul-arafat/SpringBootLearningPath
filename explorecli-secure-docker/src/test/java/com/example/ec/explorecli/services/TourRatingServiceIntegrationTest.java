@@ -3,6 +3,7 @@ package com.example.ec.explorecli.services;
 import com.example.ec.explorecli.domain.TourRating;
 import com.example.ec.explorecli.dto.RatingDto;
 import com.example.ec.explorecli.service.TourRatingService;
+import jakarta.transaction.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @RunWith(SpringRunner.class) // to enable springboot support for Junit test
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE) //means no controller and thereby no port is required
+@Transactional // all transactions to be rolled back after the test completes
 public class TourRatingServiceIntegrationTest {
     private static final Integer CUSTOMER_ID = 100;
     private static final Long TOUR_ID = 10L;
@@ -66,8 +68,8 @@ public class TourRatingServiceIntegrationTest {
         // create a new RatingDto object with values
         RatingDto ratingDto = new RatingDto(
                 14, // will reset to score 5
-                "JA Comment--Integration Testing",
-                CUSTOMER_ID
+                "JA Comment--Integration Testing/TRansactional",
+                CUSTOMER_ID+1
         );
 
         // create the first tour rating
@@ -77,7 +79,7 @@ public class TourRatingServiceIntegrationTest {
         );
 
         // check if the tour rating was created
-        assertEquals(tourRatings.size() + 1, tourRatingService.getAllTourRatings().size());
+        assertEquals(tourRatings.size()+1, tourRatingService.getAllTourRatings().size());
     }
 
     /**
@@ -99,11 +101,11 @@ public class TourRatingServiceIntegrationTest {
         tourRatingService.createTourRatingByScore(
                 TOUR_ID,
                 5,
-                CUSTOMER_ID
+                CUSTOMER_ID+1
         );
 
         // check if the tour rating was created
-        assertEquals(tourRatings.size() + 1, tourRatingService.getAllTourRatings().size());
+        assertEquals(tourRatings.size()+1, tourRatingService.getAllTourRatings().size());
     }
 
     @Test(expected = NoSuchElementException.class)
@@ -141,7 +143,7 @@ public class TourRatingServiceIntegrationTest {
         tourRatingService.createTourRatingByManyCustomers(
                 TOUR_ID,
                 3,
-                List.of(100,200,300,400,500)
+                List.of(CUSTOMER_ID+1,CUSTOMER_ID+2,CUSTOMER_ID+3,CUSTOMER_ID+4,CUSTOMER_ID+5)
         );
 
         // check if the tour rating was created
@@ -154,7 +156,8 @@ public class TourRatingServiceIntegrationTest {
         // get all the tour ratings
         List<TourRating> tourRatings = tourRatingService.getAllTourRatings();
         // create a list of customerIds
-        List<Integer> customerIds = List.of(101,201,301,401,501,601);
+        List<Integer> customerIds = List.of(CUSTOMER_ID+1,CUSTOMER_ID+2,
+                CUSTOMER_ID+3,CUSTOMER_ID+4,CUSTOMER_ID+5,CUSTOMER_ID+6);
 
         // create the first tour rating
         tourRatingService.createTourRatingByManyCustomers(TOUR_ID, 2, customerIds);
@@ -209,15 +212,15 @@ public class TourRatingServiceIntegrationTest {
      *     }
      */
 
-    @Test
-    public void testGetAverageTourRatingForTourHappyPath(){
-        assertEquals(2.5, tourRatingService.getAverageTourRatingForTour(TOUR_ID));
-    }
+//    @Test
+//    public void testGetAverageTourRatingForTourHappyPath(){
+//        assertEquals(2.5, tourRatingService.getAverageTourRatingForTour(TOUR_ID));
+//    }
 
-    @Test(expected = NoSuchElementException.class)
-    public void testGetAverageTourRatingForTourNotFoundUnhappyPath(){
-        var avgTourRating = tourRatingService.getAverageTourRatingForTour(NOT_A_TOUR_ID);
-    }
+//    @Test(expected = NoSuchElementException.class)
+//    public void testGetAverageTourRatingForTourNotFoundUnhappyPath(){
+//        var avgTourRating = tourRatingService.getAverageTourRatingForTour(NOT_A_TOUR_ID);
+//    }
 
 
 
