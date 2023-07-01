@@ -10,6 +10,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 
+// Add this annotation to scan the components in the specified package
+@EntityScan("com.example.ec.explorecli.domain") // Add this annotation to scan the entities in the specified package
 @SpringBootApplication
 //@EntityScan("com.example.ec.explorecli.domain")
 public class ExplorecliApplication {
