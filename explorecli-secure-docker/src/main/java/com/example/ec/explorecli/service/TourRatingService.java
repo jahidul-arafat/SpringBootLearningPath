@@ -3,6 +3,7 @@ package com.example.ec.explorecli.service;
 import com.example.ec.explorecli.domain.Tour;
 import com.example.ec.explorecli.domain.TourRating;
 import com.example.ec.explorecli.domain.TourRatingPK;
+import com.example.ec.explorecli.dto.RatingAssembler;
 import com.example.ec.explorecli.dto.RatingDto;
 import com.example.ec.explorecli.repo.TourRatingRepository;
 import com.example.ec.explorecli.repo.TourRepository;
@@ -56,13 +57,18 @@ public class TourRatingService {
     // method to create a tour rating given score, tour id and customer id
     // For POST /tours/{tourId}/ratings/{rating}?customers=1,2,3,4,5 with tourId, score as path variable and customerIds request parameter
     //@Transactional // This annotation ensures that the method executes as a single transaction, meaning that either all the database operations within the method will be committed together or rolled back if an exception occurs.
-    public void createTourRatingByScore(Long tourId, Integer score, Integer customerId)
+    // adding the return of RatingDto only because of Junit testing purpose
+    public RatingDto createTourRatingByScore(Long tourId, Integer score, Integer customerId)
             throws NoSuchElementException {
         LOGGER.info("POST /tours/{}/ratings/{}?customers={}", tourId, score, customerId);
         Tour tour = helperMethods.validateTour(tourId);
-        tourRatingRepository.save(new TourRating(
-                new TourRatingPK(tour, customerId),
-                score));
+        TourRating newTourRating = new TourRating(new TourRatingPK(tour, customerId),
+                score);
+        tourRatingRepository.save(newTourRating);
+
+        // map the newTourRating object to a RatingDto object and return it
+        return new RatingDto(newTourRating);
+
     }
 
     // method to create a number of tour ratings given a list of score, list of tour id and list of customer ids

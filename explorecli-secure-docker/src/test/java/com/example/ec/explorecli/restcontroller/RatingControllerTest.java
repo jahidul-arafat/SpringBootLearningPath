@@ -49,17 +49,17 @@ public class RatingControllerTest {
     @MockBean
     private RatingController ratingControllerMock;
 
-    @Mock
+    @Mock // will initialize at @Before to avoid serialization error
     private TourRating tourRatingMock;
 
     @Mock
-    private RatingDto ratingDtoMock;
+    private TourRatingPK tourRatingPKMock;
 
     @Mock
     private Tour tourMock;
 
-    @Mock
-    private TourRatingPK tourRatingPKMock;
+    // @Mock // we removed this mock as its consistently raising serialization error // we will define it at @Before
+    private RatingDto ratingDtoMock;
 
     //@Mock // we removed this Mock tag as its consistently raising serialization error
     private CustomerTourRefDto customerTourRefDtoMock; // we have to define it at @Before
@@ -68,6 +68,16 @@ public class RatingControllerTest {
 
     @Before
     public void setup() {
+        // Set mock values as needed for tourRatingMock to avoid serialization error
+//        tourRatingMock = new TourRating();
+//        tourRatingPKMock = new TourRatingPK();
+//        tourRatingPKMock.setTour(tourMock);
+//        tourRatingPKMock.setCustomerID(CUSTOMER_ID);
+//
+//        tourRatingMock.setPk(tourRatingPKMock);
+//        tourRatingMock.setScore(SCORE);
+//        tourRatingMock.setComment(COMMENT);
+
         //TourRatingPK tourRatingPK = new TourRatingPK(tourMock, CUSTOMER_ID);
         when(tourRatingMock.getPk()).thenReturn(tourRatingPKMock);
         when(tourMock.getId()).thenReturn(TOUR_ID);
@@ -75,18 +85,23 @@ public class RatingControllerTest {
         when(tourRatingMock.getScore()).thenReturn(SCORE);
         when(tourRatingMock.getCustomerId()).thenReturn(CUSTOMER_ID);
 
-        customerTourRefDtoMock = new CustomerTourRefDto();
-
         // Set mock values as needed for customerTourRefDtoMock to avoid serialization error
+        customerTourRefDtoMock = new CustomerTourRefDto();
         customerTourRefDtoMock.setComment(COMMENT);
         customerTourRefDtoMock.setCustomerId(CUSTOMER_ID);
         customerTourRefDtoMock.setTourId(TOUR_ID);
+
+        // Set mock values as needed for ratingDtoMock to avoid serialization error
+        ratingDtoMock = new RatingDto();
+        ratingDtoMock.setComment(COMMENT);
+        ratingDtoMock.setCustomerId(CUSTOMER_ID);
+        ratingDtoMock.setScore(SCORE);
     }
 
 
     // Test method to get all ratings of a tour
     @Test
-    public void getAllRatingsOfTourByTourId() throws Exception {
+    public void testGetAllRatingsOfTourByTourId() throws Exception {
         when(ratingControllerMock.getAllRatings())
                 .thenReturn(List.of(ratingDtoMock));
         //List<TourRating> actual =  tourRatingServiceMock.getAllTourRatingsForTourByTourId(TOUR_ID);
@@ -95,7 +110,7 @@ public class RatingControllerTest {
     }
 
     @Test
-    public void getAllRatingsByScore() throws Exception {
+    public void testGetAllRatingsByScore() throws Exception {
         when(ratingControllerMock.getAllRatingsByScore(SCORE)).thenReturn(List.of(
                 customerTourRefDtoMock,customerTourRefDtoMock,customerTourRefDtoMock));
         List<CustomerTourRefDto> actual = ratingControllerMock.getAllRatingsByScore(SCORE);
@@ -108,7 +123,7 @@ public class RatingControllerTest {
      *  /rating/4
      */
     @Test
-    public void getRatingByScoreWebURL() throws Exception {
+    public void testGetRatingByScoreWebURL() throws Exception {
         List<CustomerTourRefDto> mockList = List.of(
                 customerTourRefDtoMock, customerTourRefDtoMock, customerTourRefDtoMock);
 
@@ -122,5 +137,45 @@ public class RatingControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.[0].tourId").value(TOUR_ID))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.[0].comment").value(COMMENT));
     }
+
+    /**
+     *  HTTP GET /rating
+     */
+    @Test
+    public void testGetRatingWebURL() throws Exception {
+        List<RatingDto> mockList = List.of(
+                ratingDtoMock, ratingDtoMock, ratingDtoMock,ratingDtoMock);
+        when(ratingControllerMock.getAllRatings()).thenReturn(mockList);
+        mockMvc.perform(MockMvcRequestBuilders.get(RATINGS_URL))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(4)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].customerId").value(CUSTOMER_ID))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].score").value(SCORE))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].comment").value(COMMENT));
+    }
+
+    /*
+    mockMvc
+                .perform(post("/contacts/model/addContact",newContact))
+                .andExpect(status().is(201)) // means post method is successful and newContact is created successfully
+                .andExpect(jsonPath("$.firstName").value("Fred"))
+                .andExpect(jsonPath("$.lastName").value("Flintstone"))
+                .andReturn();
+     */
+    /**
+     * HTTP POST /rating/{score}/{tourId}/{customerId}
+     */
+    @Test
+    public void testRateTourWebURL() throws Exception {
+        when(ratingControllerMock.rateTour(SCORE, TOUR_ID, CUSTOMER_ID)).thenReturn(ratingDtoMock);
+        mockMvc.perform(MockMvcRequestBuilders.post(RATINGS_URL + "/{score}/{tourId}/{customerId}", SCORE, TOUR_ID, CUSTOMER_ID))
+              .andExpect(MockMvcResultMatchers.status().isCreated())
+              .andExpect(MockMvcResultMatchers.jsonPath("$.customerId").value(CUSTOMER_ID))
+              .andExpect(MockMvcResultMatchers.jsonPath("$.score").value(SCORE))
+              .andExpect(MockMvcResultMatchers.jsonPath("$.comment").value(COMMENT));
+    }
+
+
 
 }
