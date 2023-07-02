@@ -32,10 +32,10 @@ public class TourRatingRestController {
     // method to create a new tour rating
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createTourRating(@PathVariable("tourId") Long tourId,
+    public RatingDto createTourRating(@PathVariable("tourId") Long tourId,
                                  @RequestBody @Validated RatingDto ratingDto) {
-        LOGGER.info("POST /tour/{}/ratings/{}",tourId,ratingDto);
-        tourRatingService.createTourRating(tourId, ratingDto);
+        LOGGER.info("POST /tours/{}/ratings/{}",tourId,ratingDto);
+        return tourRatingService.createTourRating(tourId, ratingDto);
     }
 
     // method to get all tour ratings for a tour

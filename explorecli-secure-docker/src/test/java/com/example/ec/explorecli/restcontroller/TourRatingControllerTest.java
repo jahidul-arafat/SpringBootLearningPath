@@ -6,18 +6,22 @@ import com.example.ec.explorecli.domain.TourRatingPK;
 import com.example.ec.explorecli.dto.CustomerTourRefDto;
 import com.example.ec.explorecli.dto.RatingDto;
 import com.example.ec.explorecli.service.TourRatingService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.List;
 
@@ -25,8 +29,8 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
-@WebMvcTest(TourRatingRestController.class)
+@RunWith(SpringRunner.class) // This annotation is used to run the tests with the Spring test runner.
+@WebMvcTest(TourRatingRestController.class) // This annotation tells Spring to load only the necessary web-related components for testing the
 public class TourRatingControllerTest {
     private static final String TOUR_RATINGS_URL = "/tours";
 
@@ -37,9 +41,17 @@ public class TourRatingControllerTest {
 
     private static final Double AVERAGE_RATING = 4.0;
     private static final String COMMENT = "comment";
+    /*
+    Why Autowired?
+    Using @Autowired helps simplify the testing process and promotes code reusability
+    by allowing you to inject dependencies rather than creating them manually.
+     */
 
-    @Autowired // allows performing HTTP requests and assertions on the controller endpoints.
+    @Autowired // which is a main entry point for testing Spring MVC applications. It allows performing HTTP requests and assertions on the controller endpoints.
     private MockMvc mockMvc;
+
+    @Autowired // This annotation injects an instance of ObjectMapper, which is used for JSON serialization and deserialization in the tests.
+    private ObjectMapper objectMapper;
 
     @MockBean
     private TourRatingService tourRatingServiceMock;
@@ -62,8 +74,14 @@ public class TourRatingControllerTest {
     //@Mock // we removed this Mock tag as its consistently raising serialization error
     private CustomerTourRefDto customerTourRefDtoMock; // we have to define it at @Before
 
-    @Before
+    @Before // This annotation is used to indicate that the annotated method should be executed before each test method.
     public void setup() {
+        // Set the default media type to application/json
+//        mockMvc = MockMvcBuilders.standaloneSetup(tourRatingRestControllerMock)
+//                .defaultRequest(MockMvcRequestBuilders.get("/")
+//                        .accept(MediaType.APPLICATION_JSON_VALUE))
+//                .build();
+
         // TourRatingPK tourRatingPK = new TourRatingPK(tourMock, CUSTOMER_ID);
         when(tourRatingMock.getPk()).thenReturn(tourRatingPKMock);
         when(tourMock.getId()).thenReturn(TOUR_ID);
@@ -82,6 +100,7 @@ public class TourRatingControllerTest {
         ratingDtoMock.setComment(COMMENT);
         ratingDtoMock.setCustomerId(CUSTOMER_ID);
         ratingDtoMock.setScore(SCORE);
+
     }
 
     /**
@@ -156,8 +175,35 @@ public class TourRatingControllerTest {
         mockMvc
              .perform(MockMvcRequestBuilders.get(TOUR_RATINGS_URL + "/{tourId}/ratings/ratingDto/{customerId}", TOUR_ID, CUSTOMER_ID))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                //.andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.jsonPath("$").value(ratingDtoMock));
+                .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaTypes.HAL_JSON))
+                .andExpect(MockMvcResultMatchers.jsonPath("$").value(ratingDtoMock))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.customerId").value(CUSTOMER_ID))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.score").value(SCORE))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.comment").value(COMMENT));
+    }
+
+    /**
+     * HTTP POST /tours/{tourId}/ratings
+     */
+    @Test
+    public void testCreateTourRating() throws Exception {
+        when(tourRatingRestControllerMock.createTourRating(TOUR_ID, ratingDtoMock))
+                .thenReturn(ratingDtoMock);
+
+        String requestBody = objectMapper.writeValueAsString(ratingDtoMock);
+
+        // The request is configured with the content type MediaType.APPLICATION_JSON and the request body is set to
+        // the serialized form of the ratingDtoMock object using the objectMapper.
+
+        mockMvc.perform(MockMvcRequestBuilders.post(TOUR_RATINGS_URL + "/{tourId}/ratings", TOUR_ID)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody))
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaTypes.HAL_JSON))
+                .andExpect(MockMvcResultMatchers.jsonPath("$").value(ratingDtoMock))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.customerId").value(CUSTOMER_ID))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.score").value(SCORE))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.comment").value(COMMENT));
     }
 
 

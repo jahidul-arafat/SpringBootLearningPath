@@ -44,7 +44,7 @@ public class TourRatingService {
 
     // method to create a tour rating using tour id
     // For POST /tours/{tourId}/ratings  with RatingDTO as the JSON/payload in the Body
-    public void createTourRating(Long tourId, @Validated RatingDto ratingDto){
+    public RatingDto createTourRating(Long tourId, @Validated RatingDto ratingDto){
         LOGGER.info("POST /tours/{}/ratings/{}",tourId,ratingDto);
         Tour tour = helperMethods.validateTour(tourId);
         tourRatingRepository.save(new TourRating(
@@ -52,6 +52,7 @@ public class TourRatingService {
                 ratingDto.getScore(),
                 ratingDto.getComment()
                 ));
+        return ratingDto;
     }
 
     // method to create a tour rating given score, tour id and customer id
