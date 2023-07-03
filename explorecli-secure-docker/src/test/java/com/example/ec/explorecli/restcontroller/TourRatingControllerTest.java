@@ -31,6 +31,18 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+/*
+- In the given code, the @MockBean annotation is used for the Tour, TourRating, TourRatingService and TourRatingRestController
+dependencies because they are beans managed by Spring and need to be replaced with mock implementations
+for testing the TourRatingRestController class.
+By using @MockBean, Spring will automatically replace the real beans with mock instances during the test execution.
+
+- On the other hand, the @Mock annotation is used for the TourRatingPK, RatingDto, and CustomerTourRefDto dependencies.
+ These are regular mock objects that are used to stub behavior or provide expected values for specific test cases.
+ Since they are not beans managed by Spring,
+ they are simply created as mock objects using Mockito's @Mock annotation.
+ */
+
 @RunWith(SpringRunner.class) // This annotation is used to run the tests with the Spring test runner.
 @WebMvcTest(TourRatingRestController.class) // This annotation tells Spring to load only the necessary web-related components for testing the
 public class TourRatingControllerTest {
@@ -58,25 +70,28 @@ public class TourRatingControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private TourRatingService tourRatingServiceMock;
+    private TourRatingService tourRatingServiceMock; // its a spring context bean
 
     @MockBean
-    private TourRatingRestController tourRatingRestControllerMock;
+    private TourRatingRestController tourRatingRestControllerMock;  // its a spring context bean
 
-    @Mock // will initialize at @Before to avoid serialization error
-    private TourRating tourRatingMock;
+
+    // Mock is used for to isolate the unit under test and provide specific behavior for the mock object.
+    // It is not aware of the Spring context and doesn't integrate with the Spring container.
+    @MockBean // will initialize at @Before to avoid serialization error
+    private TourRating tourRatingMock; // its a spring context bean
 
     @Mock
-    private TourRatingPK tourRatingPKMock;
+    private TourRatingPK tourRatingPKMock; // its not a spring context bean
 
-    @Mock
-    private Tour tourMock;
+    @MockBean
+    private Tour tourMock; // its a spring context bean
 
     // @Mock // we removed this mock as its consistently raising serialization error // we will define it at @Before
-    private RatingDto ratingDtoMock;
+    private RatingDto ratingDtoMock;    // its not a spring context bean
 
     //@Mock // we removed this Mock tag as its consistently raising serialization error
-    private CustomerTourRefDto customerTourRefDtoMock; // we have to define it at @Before
+    private CustomerTourRefDto customerTourRefDtoMock; // we have to define it at @Before // its not a spring context bean
 
     @Before // This annotation is used to indicate that the annotated method should be executed before each test method.
     public void setup() {

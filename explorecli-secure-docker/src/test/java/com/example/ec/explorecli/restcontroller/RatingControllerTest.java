@@ -45,25 +45,25 @@ public class RatingControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private TourRatingService tourRatingServiceMock;
+    private TourRatingService tourRatingServiceMock;    // its a spring context bean
 
     @MockBean
-    private RatingController ratingControllerMock;
+    private RatingController ratingControllerMock;  // its a spring context bean
 
-    @Mock // will initialize at @Before to avoid serialization error
-    private TourRating tourRatingMock;
-
-    @Mock
-    private TourRatingPK tourRatingPKMock;
+    @MockBean // will initialize at @Before to avoid serialization error
+    private TourRating tourRatingMock;  // its a spring context bean:: Entity
 
     @Mock
-    private Tour tourMock;
+    private TourRatingPK tourRatingPKMock;  // its not a spring context bean
+
+    @MockBean
+    private Tour tourMock;      // a Spring context bean
 
     // @Mock // we removed this mock as its consistently raising serialization error // we will define it at @Before
-    private RatingDto ratingDtoMock;
+    private RatingDto ratingDtoMock;    // not a spring context bean
 
     //@Mock // we removed this Mock tag as its consistently raising serialization error
-    private CustomerTourRefDto customerTourRefDtoMock; // we have to define it at @Before
+    private CustomerTourRefDto customerTourRefDtoMock; // we have to define it at @Before   // not a spring context bean
 
 
 
