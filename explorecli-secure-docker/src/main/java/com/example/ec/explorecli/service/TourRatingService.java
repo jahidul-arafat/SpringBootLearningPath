@@ -179,13 +179,14 @@ public class TourRatingService {
     }
 
     // method to update the score and comment of a specific tour rating
-    public void updateTourRating(Long tourId, @Validated RatingDto ratingDto){
+    public RatingDto updateTourRating(Long tourId, @Validated RatingDto ratingDto){
         // verify tour rating by tour and customer id
         TourRating tourRating = helperMethods.validateTourRating(tourId, ratingDto.getCustomerId());
 
         tourRating.setScore(ratingDto.getScore());
         tourRating.setComment(ratingDto.getComment());
         tourRatingRepository.save(tourRating);
+        return new RatingDto(tourRating);
     }
 
     // method to delete a specific tour rating by tour and customer id

@@ -53,12 +53,13 @@ public class TourRatingRestController {
     }
 
     // method to update a tour rating
+    // Return is not mandatory here, but for Testing purposes we add the return of RatingDto
     @PutMapping
-    public void updateTourRating(@PathVariable("tourId") Long tourId,
+    public RatingDto updateTourRating(@PathVariable("tourId") Long tourId,
                                  @RequestBody @Validated RatingDto ratingDto) {
         // add logger info along with url parameter
         LOGGER.info("PUT /tour/{}/ratings/{}",tourId, ratingDto);
-        tourRatingService.updateTourRating(tourId, ratingDto);
+        return tourRatingService.updateTourRating(tourId, ratingDto);
     }
 
     // method to delete a tour rating

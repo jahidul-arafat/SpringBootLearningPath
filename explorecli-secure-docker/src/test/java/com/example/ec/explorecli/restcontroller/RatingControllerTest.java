@@ -36,6 +36,7 @@ public class RatingControllerTest {
 
     //These Tour and rating id's do not already exist in the db
     private static final Long TOUR_ID = 999L;
+
     private static final int CUSTOMER_ID = 1000;
     private static final int SCORE = 3;
     private static final String COMMENT = "comment";

@@ -23,7 +23,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.verify;
@@ -36,6 +38,8 @@ public class TourRatingControllerTest {
 
     //These Tour and rating id's do not already exist in the db
     private static final Long TOUR_ID = 999L;
+
+    private static final Long NOT_A_TOUR_ID=123123123L;
     private static final int CUSTOMER_ID = 1000;
     private static final int SCORE = 3;
 
@@ -132,6 +136,24 @@ public class TourRatingControllerTest {
                   .andExpect(MockMvcResultMatchers.jsonPath("$[0].score").value(SCORE));
     }
 
+    // Test to check when the TOUR_ID does not exist in the db
+    @Test
+    public void testGetAllTourRatingsForTour_WhenTourIdNotFound() throws Exception {
+        when(tourRatingRestControllerMock.getAllTourRatingsForTour(NOT_A_TOUR_ID))
+              .thenReturn(Collections.emptyList());
+
+        mockMvc
+                .perform(MockMvcRequestBuilders.get(TOUR_RATINGS_URL + "/{tourId}/ratings", NOT_A_TOUR_ID))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.jsonPath("$").isArray())
+                .andExpect(MockMvcResultMatchers.jsonPath("$").isEmpty());
+
+        // verify that the method invoked atleast once
+        verify(tourRatingRestControllerMock).getAllTourRatingsForTour(NOT_A_TOUR_ID);
+
+    }
+
     /**
      * HTTP GET /tours/{tourId}/ratings/average
      */
@@ -180,6 +202,9 @@ public class TourRatingControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.customerId").value(CUSTOMER_ID))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.score").value(SCORE))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.comment").value(COMMENT));
+
+        // verify that the TourRatingRestController getRatingDtoByTourAndCustomer() method is invoked once
+        verify(tourRatingRestControllerMock).getRatingDtoByTourAndCustomer(TOUR_ID,CUSTOMER_ID);
     }
 
     /**
@@ -204,6 +229,40 @@ public class TourRatingControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.customerId").value(CUSTOMER_ID))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.score").value(SCORE))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.comment").value(COMMENT));
+
+
+        // verify that the TourRatingRestController createTourRating() method is invoked once
+        verify(tourRatingRestControllerMock).createTourRating(TOUR_ID, ratingDtoMock);
+    }
+
+    /**
+     * HTTP PUT /tours/{tourId}/ratings/{ratingDto}
+     */
+    @Test
+    public void testUpdateTourRating() throws Exception {
+        when(tourRatingRestControllerMock.updateTourRating(TOUR_ID, ratingDtoMock))
+               .thenReturn(ratingDtoMock);
+
+        // The objectMapper is used to serialize the ratingDtoMock object into a JSON string,
+        // which will be the request body.
+
+        String requestBody = objectMapper.writeValueAsString(ratingDtoMock);
+
+        // The request is configured with the content type MediaType.APPLICATION_JSON and the request body is set to
+        // the serialized form of the ratingDtoMock object using the objectMapper.
+
+        mockMvc.perform(MockMvcRequestBuilders.put(TOUR_RATINGS_URL + "/{tourId}/ratings", TOUR_ID)
+                       .contentType(MediaType.APPLICATION_JSON)
+                       .content(requestBody))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaTypes.HAL_JSON))
+                .andExpect(MockMvcResultMatchers.jsonPath("$").value(ratingDtoMock))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.customerId").value(CUSTOMER_ID))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.score").value(SCORE))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.comment").value(COMMENT));
+
+        // verify that the TourRatingRestController updateTourRating() method is invoked once
+        verify(tourRatingRestControllerMock).updateTourRating(TOUR_ID, ratingDtoMock);
     }
 
 
