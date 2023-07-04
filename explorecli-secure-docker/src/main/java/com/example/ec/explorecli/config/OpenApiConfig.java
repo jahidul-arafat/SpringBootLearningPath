@@ -5,6 +5,10 @@ import io.swagger.v3.oas.models.info.Info;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Swagger OpenApi to documenting the Spring APIs.
+ * Alternative to OpenApi: Spring Fox
+ */
 @Configuration
 public class OpenApiConfig {
 
