@@ -29,7 +29,7 @@ public class ProductService {
     // Else duplication of products will occur.
 //    @PostConstruct
 //    public void init() {
-//        /*
+//        /* to be deleted
 //        productList = new ArrayList<>();
 //        for (int i = 1; i <= 100; i++) {
 //            productList.add(Product.builder()
