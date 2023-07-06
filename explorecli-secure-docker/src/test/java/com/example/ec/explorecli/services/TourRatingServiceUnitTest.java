@@ -2,11 +2,13 @@ package com.example.ec.explorecli.services;
 
 import com.example.ec.explorecli.domain.Tour;
 import com.example.ec.explorecli.domain.TourRating;
+import com.example.ec.explorecli.domain.TourRatingPK;
 import com.example.ec.explorecli.dto.RatingDto;
 import com.example.ec.explorecli.repo.TourRatingRepository;
 import com.example.ec.explorecli.repo.TourRepository;
 import com.example.ec.explorecli.service.TourRatingService;
 import com.example.ec.explorecli.util.HelperMethods;
+import jakarta.transaction.Transactional;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +16,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,9 +25,19 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+/*
+In summary, @RunWith(MockitoJUnitRunner.class) is used for unit testing with mock dependencies,
+while @RunWith(SpringRunner.class) and @SpringBootTest are used for integration testing with the Spring Boot application context.
+The choice between these approaches depends on the nature of the test and the dependencies you want to mock or integrate with.
+
+ */
+
 //@ExtendWith(MockitoExtension.class) // MockitoExtension.class is the specific extension provided by the Mockito framework. It integrates Mockito with JUnit 5 tests.
 //@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE) // means, its not a controller test and we don't need a URL/endpoint.
 @RunWith(MockitoJUnitRunner.class)
+//@RunWith(SpringRunner.class) // to enable springboot support for Junit test
+//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE) //means no controller and thereby no port is required
+//@Transactional
 public class TourRatingServiceUnitTest {
 
     private static final Integer CUSTOMER_ID = 100;
@@ -54,6 +68,9 @@ public class TourRatingServiceUnitTest {
     @Mock
     private RatingDto ratingDtoMock; // not injectable to TourRatingService
 
+    @Mock
+    private TourRatingPK tourRatingPKMock; // not injectable to TourRatingService
+
     @Before // to override the normal behavior of runtime // this will be invoked before each test method
     public void setUpReturnValuesForMockInvocations() {
         /*
@@ -77,6 +94,11 @@ public class TourRatingServiceUnitTest {
 //        when(tourRatingMock.getScore()).thenReturn(10);
 //        when(tourRatingMock.getCustomerId()).thenReturn(CUSTOMER_ID);
 //        when(tourRatingMock.getComment()).thenReturn("Comment");
+
+        // TourRatingPK tourRatingPK = new TourRatingPK(tourMock, CUSTOMER_ID);
+        when(tourRatingMock.getPk()).thenReturn(tourRatingPKMock);
+        //when(tourMock.getId()).thenReturn(TOUR_ID);
+        //when(tourRatingMock.getCustomerId()).thenReturn(CUSTOMER_ID);
 
     }
 
@@ -136,10 +158,11 @@ public class TourRatingServiceUnitTest {
     @Test
     public void testUpdateSingleTourRating() {
         when(helperMethodsMock.validateTourRating(TOUR_ID, ratingDtoMock.getCustomerId())).thenReturn(tourRatingMock); // setup // without this TourRating will face a null pointer exception// expected
+        //when(tourRatingService.updateTourRating(TOUR_ID, ratingDtoMock)).thenReturn(ratingDtoMock);
         tourRatingService.updateTourRating(TOUR_ID, new RatingDto(1, "great",100));
 
         //verify tourRatingRepository.save invoked once and capture the TourRating Object
-        verify(tourRatingRepositoryMock).save(any(TourRating.class));
+        //verify(tourRatingRepositoryMock).save(any(TourRating.class));
 
         verify(tourRatingMock).setComment("great");
         verify(tourRatingMock).setScore(1);

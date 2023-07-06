@@ -11,9 +11,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+// import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -26,11 +28,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 
+
 //@ExtendWith(SpringExtension.class) // annotation is used to enable Spring support for the JUnit test
 //@WebMvcTest(RatingController.class) // to inform our test environment that we will be unit testing in MVC cont
 @RunWith(SpringRunner.class)
 //@SpringBootTest(webEnvironment = RANDOM_PORT)
 @WebMvcTest(RatingController.class)
+//@AutoConfigureMockMvc // to disable Spring Security for your unit tests
 public class RatingControllerTest {
     private static final String RATINGS_URL = "/rating";
 
@@ -102,6 +106,7 @@ public class RatingControllerTest {
 
     // Test method to get all ratings of a tour
     @Test
+    //@WithMockUser(username = "admin", password = "admin")
     public void testGetAllRatingsOfTourByTourId() throws Exception {
         when(ratingControllerMock.getAllRatings())
                 .thenReturn(List.of(ratingDtoMock));
@@ -111,6 +116,7 @@ public class RatingControllerTest {
     }
 
     @Test
+    //@WithMockUser(username = "admin", password = "admin")
     public void testGetAllRatingsByScore() throws Exception {
         when(ratingControllerMock.getAllRatingsByScore(SCORE)).thenReturn(List.of(
                 customerTourRefDtoMock,customerTourRefDtoMock,customerTourRefDtoMock));
@@ -124,6 +130,7 @@ public class RatingControllerTest {
      *  /rating/4
      */
     @Test
+    //@WithMockUser(username = "admin", password = "admin")
     public void testGetRatingByScoreWebURL() throws Exception {
         List<CustomerTourRefDto> mockList = List.of(
                 customerTourRefDtoMock, customerTourRefDtoMock, customerTourRefDtoMock);
@@ -143,6 +150,7 @@ public class RatingControllerTest {
      *  HTTP GET /rating
      */
     @Test
+    //@WithMockUser(username = "admin", password = "admin")
     public void testGetRatingWebURL() throws Exception {
         List<RatingDto> mockList = List.of(
                 ratingDtoMock, ratingDtoMock, ratingDtoMock,ratingDtoMock);
@@ -168,6 +176,7 @@ public class RatingControllerTest {
      * HTTP POST /rating/{score}/{tourId}/{customerId}
      */
     @Test
+    //@WithMockUser(username = "admin", password = "admin")
     public void testRateTourWebURL() throws Exception {
         when(ratingControllerMock.rateTour(SCORE, TOUR_ID, CUSTOMER_ID)).thenReturn(ratingDtoMock);
         mockMvc.perform(MockMvcRequestBuilders.post(RATINGS_URL + "/{score}/{tourId}/{customerId}", SCORE, TOUR_ID, CUSTOMER_ID))

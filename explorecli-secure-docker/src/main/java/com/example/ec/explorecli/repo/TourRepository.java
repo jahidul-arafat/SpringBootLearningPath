@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+@RestResource(exported = false)
 public interface TourRepository extends JpaRepository<Tour, Long> {
     @Query("SELECT t.id, t.price, t.duration, tpkg.name FROM Tour t, TourPackage tpkg WHERE t.tourPackage.code = tpkg.code")
     List<Object[]> findTourDetailsByTourPackageCode();

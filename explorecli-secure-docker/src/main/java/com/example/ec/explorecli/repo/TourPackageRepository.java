@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@RepositoryRestResource(collectionResourceRel = "packages", path = "packages")
+@RepositoryRestResource(collectionResourceRel = "packages", path = "packages", exported = false)
 public interface TourPackageRepository extends JpaRepository<TourPackage, String> {
     Optional<TourPackage> findByName(String name);
 

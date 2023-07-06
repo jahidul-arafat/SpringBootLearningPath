@@ -14,9 +14,11 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
+// import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -45,6 +47,8 @@ By using @MockBean, Spring will automatically replace the real beans with mock i
 
 @RunWith(SpringRunner.class) // This annotation is used to run the tests with the Spring test runner.
 @WebMvcTest(TourRatingRestController.class) // This annotation tells Spring to load only the necessary web-related components for testing the
+//@AutoConfigureMockMvc // to disable Spring Security for your unit tests
+//@WithMockUser(username = "admin", password = "admin")
 public class TourRatingControllerTest {
     private static final String TOUR_RATINGS_URL = "/tours";
 
@@ -137,6 +141,7 @@ public class TourRatingControllerTest {
 
      */
     @Test
+    //@WithMockUser(username = "admin", password = "admin")
     public void testGetAllTourRatingsForTourByTourId() throws Exception {
         when(tourRatingRestControllerMock.getAllTourRatingsForTour(TOUR_ID))
                 .thenReturn(List.of(ratingDtoMock,ratingDtoMock,ratingDtoMock));
@@ -153,6 +158,7 @@ public class TourRatingControllerTest {
 
     // Test to check when the TOUR_ID does not exist in the db
     @Test
+    //@WithMockUser(username = "admin", password = "admin")
     public void testGetAllTourRatingsForTour_WhenTourIdNotFound() throws Exception {
         when(tourRatingRestControllerMock.getAllTourRatingsForTour(NOT_A_TOUR_ID))
               .thenReturn(Collections.emptyList());
@@ -175,6 +181,7 @@ public class TourRatingControllerTest {
 
     // Test method to get average rating for a tour given tour id
     @Test
+    //@WithMockUser(username = "admin", password = "admin")
     public void testGetAverageRatingForTourByTourId() throws Exception {
         when(tourRatingRestControllerMock.getAverageTourRatingForTour(TOUR_ID))
               .thenReturn(AVERAGE_RATING);
@@ -190,6 +197,7 @@ public class TourRatingControllerTest {
      * HTTP DELETE /tours/{tourId}/ratings/{customerId}
      */
     @Test
+    //@WithMockUser(username = "admin", password = "admin")
     public void testDeleteTourRatingByTourIdAndCustomerId() throws Exception {
         mockMvc
               .perform(MockMvcRequestBuilders.delete(TOUR_RATINGS_URL + "/{tourId}/ratings/{customerId}", TOUR_ID, CUSTOMER_ID))
@@ -205,6 +213,7 @@ public class TourRatingControllerTest {
      * HTTP GET /tours/{tourId}/ratings/ratingDto/{customerId}
      */
     @Test
+    //@WithMockUser(username = "admin", password = "admin")
     public void testGetTourRatingByTourIdAndCustomerId() throws Exception {
         when(tourRatingRestControllerMock.getRatingDtoByTourAndCustomer(TOUR_ID, CUSTOMER_ID))
              .thenReturn(ratingDtoMock);
@@ -226,6 +235,7 @@ public class TourRatingControllerTest {
      * HTTP POST /tours/{tourId}/ratings
      */
     @Test
+    //@WithMockUser(username = "admin", password = "admin")
     public void testCreateTourRating() throws Exception {
         when(tourRatingRestControllerMock.createTourRating(TOUR_ID, ratingDtoMock))
                 .thenReturn(ratingDtoMock);
@@ -254,6 +264,7 @@ public class TourRatingControllerTest {
      * HTTP PUT /tours/{tourId}/ratings/{ratingDto}
      */
     @Test
+    //@WithMockUser(username = "admin", password = "admin")
     public void testUpdateTourRating() throws Exception {
         when(tourRatingRestControllerMock.updateTourRating(TOUR_ID, ratingDtoMock))
                .thenReturn(ratingDtoMock);
