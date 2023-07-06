@@ -63,11 +63,13 @@ public class SecurityConfig {
                 which will be used by the Spring Security infrastructure.
      */
 
-    @Value("${user.user1.password}") // this is imported from resources/application-secret.properties
-    private String user1Password;
-
-    @Value("${user.admin.password}") // this is imported from resources/application-secret.properties
-    private String adminPassword;
+    // these not required anymore, as we gonna create UserInfo through UserAuthManagementService through
+    // api endpoint http://localhost:8080/user-auth-mgmt/register
+//    @Value("${user.user1.password}") // this is imported from resources/application-secret.properties
+//    private String user1Password;
+//
+//    @Value("${user.admin.password}") // this is imported from resources/application-secret.properties
+//    private String adminPassword;
 
     // create a password encoder bean
     @Bean

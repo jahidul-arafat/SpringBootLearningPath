@@ -25,7 +25,7 @@ public class UserAuthManagementService {
 
     // method to add a new user info into the UserInfoRepository
     public String addUserInfo(UserInfo userInfo) {
-        // When savign the new user info into the UserInfoRepository, you must need to encrypt the password
+        // When saving the new user info into the UserInfoRepository, you must need to encrypt the password
         userInfo.setPassword(passwordEncoder.encode(userInfo.getPassword()));
         userInfoRepository.save(userInfo);
         // return a string with user name
